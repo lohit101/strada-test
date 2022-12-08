@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock styles %}
+
+{% block title %}
+<title>STRADA 1949 | Order Placed Successfully</title>
+{% endblock title %}
+
+{% block body %}
+
+<div id="myCartWrapper">
+    <div class="orderCompleteWrapper">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="74" height="74" viewBox="0 0 74 74">
+                <path id="Intersection_4" data-name="Intersection 4"
+                    d="M26.087,69.785A15.513,15.513,0,0,1,8.215,51.913,15.5,15.5,0,0,1,8.388,26.96a15.513,15.513,0,0,1,17.7-18.745,15.5,15.5,0,0,1,24.953.172A15.514,15.514,0,0,1,69.612,26.96a15.5,15.5,0,0,1,.173,24.952,15.513,15.513,0,0,1-18.745,17.7,15.5,15.5,0,0,1-24.953.173Z"
+                    transform="translate(-2 -2.001)" fill="#7cd954" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="34.571" height="25.071" viewBox="0 0 34.571 25.071">
+                <g id="Group_77" data-name="Group 77" transform="translate(-173.964 -138.965)">
+                  <line id="Line_12" data-name="Line 12" x2="9" y2="9" transform="translate(177.5 151.5)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="5"/>
+                  <line id="Line_13" data-name="Line 13" x1="18.5" y2="18" transform="translate(186.5 142.5)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="5"/>
+                </g>
+              </svg>              
+        </div>
+        <p class="subheadingNotif">Order placed</p>
+        <p class="subNotif">The order details have been sent to you via your email ({{posted.email}})</p>
+    </div>
+    <p class="heading">Your <headingLight>Order</headingLight>
+    </p>
+    {% for product in products %}
+    <a href="/product/{{product.product_id}}">
+        <div class="itemWrapper">
+            <div class="item" style="background-image: url('{{product.img1.url}}');"></div>
+            <div class="productDetails">
+                <p class="productName">{{product.name}}</p>
+                <p class="productPrice">Rs. {{product.price}}</p>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+{% if checkout %}
+<div class="billerWrapper" id="billerWrapper">
+    <div class="biller">
+        <div class="billerRow">
+            <p class="billerName">SUB TOTAL</p>
+            <p class="billerPrice">Rs. {{total}}.00</p>
+        </div>
+        <div class="billerRow">
+            <p class="billerName">SHIPPING</p>
+            <div class="deliveryCharges">
+                <p class="billerPrice" style="text-decoration: line-through; color: darkgray; font-size: 14px;">Rs.
+                    80.00</p>
+                <p class="billerPrice">Rs. 0.00</p>
+            </div>
+        </div>
+        <div class="billerRow">
+            <p class="billerName billerTotal">TOTAL</p>
+            <p class="billerPrice billerTotal">Rs. {{total}}.00</p>
+        </div>
+    </div>
+</div>
+{% else %}
+<p class="noBag">Your order has been placed successfully</p>
+{% endif %}
+
+<p class="heading">Browse <headingLight>Collections</headingLight>
+</p>
+
+<div class="collectionCarousel">
+
+    {% for collection in collections %}
+
+    <div class="collectionWrapper" style="background-color: {{collection.collection_color}};">
+        <p class="collectionTop">{{collection.collection_name}} <br> {{collection.collection_number}}</p>
+        <div class="collectionBottom">
+            <p class="collectionName">{{collection.collection_name}}{{collection.collection_number}}</p>
+            <a href="/collection/{{collection.collection_slug}}" class="viewProductBtn">Browse</a>
+        </div>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+<script type="application/javascript">
+
+    var shippingDetailsWrapper = document.getElementById('shippingDetailsWrapper');
+    var checkoutBtn = document.getElementById('checkoutBtn');
+    var billerWrapper = document.getElementById('billerWrapper');
+    var myCartWrapper = document.getElementById('myCartWrapper');
+
+    checkoutBtn.addEventListener('click', function () {
+        shippingDetailsWrapper.style.display = 'flex';
+        shippingDetailsWrapper.style.opacity = '1';
+        shippingDetailsWrapper.style.pointerEvents = 'all';
+        billerWrapper.style.display = 'none';
+        myCartWrapper.style.display = 'none';
+    });
+
+</script>
+
+{% endblock body %}
